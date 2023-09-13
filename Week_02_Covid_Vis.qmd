@@ -41,6 +41,17 @@ covid_data_count |>
 4. What other data would be useful to better understand this data?
 
 ```{r second_plot}
-filter(count, count_type==cases)
-ggplot(covid_data_long, aes(x = count/population, y = race)) + geom_point()
+covid_data_long |>
+  filter(count_type == "Cases", race != "Total") |>
+ggplot() + geom_bar(aes(x = state, fill = race)) + scale_x_discrete(guide = guide_axis(angle = 90)) + ylab('covid case count')
 ```
+
+```{r third_plot}
+covid_data_long |>
+  filter(count_type == "Cases", race != "Total") |>
+ggplot(aes(x = race, y = log(count))) + geom_point(aes(color = state)) + scale_x_discrete(guide = guide_axis(angle = 90)) + scale_y_continuous("log of collective covid case count") + stat_summary(fun = mean, geom = "point", size = 4, alpha = 0.25)
+```
+
+2. Latinx group was most vulnerable to covid as they had the highest mean of collective covid cases in the US (combining all of the data from each state).
+3. I wish I knew how to compare the race to its population since the population of each race is different. There is a different meaning if there is one case in a population of 100 people versus one case in a population of 10 people. I hope to learn how to combine all of the different race populations from each state. I also would like to know how to group the states by different regions so that the graph is easier to understand.
+4. I would like to know the recovery rate or how long on average each racial group were hospitalized for care. I also would like to know more about the socioeconomical groups of those who received care. People of low socioeconomic status often are discriminated in healthcare and receive low quality of care or less likely to seek healthcare due to financial problems.
